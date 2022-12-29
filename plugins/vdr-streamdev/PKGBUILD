@@ -6,7 +6,7 @@ pkgbase=vdr-streamdev
 pkgname=(vdr-streamdev-{client,server})
 pkgver=0.6.3
 _vdrapi=2.6.3
-pkgrel=3
+pkgrel=2
 pkgdesc="Implementation of the VTP (Video Transfer Protocol)"
 url="https://github.com/vdr-projects/vdr-plugin-streamdev"
 arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h')
@@ -14,14 +14,21 @@ license=('GPL2')
 depends=('gcc-libs' "vdr-api=${_vdrapi}")
 _plugname=${pkgbase//vdr-/}
 source=("$pkgbase-$pkgver.tar.gz::https://github.com/vdr-projects/vdr-plugin-streamdev/archive/refs/tags/$pkgver.tar.gz"
+        "avoid_parental_rating_dialogs.patch::https://github.com/ciminus/vdr-plugin-streamdev/commit/4f62ce07f14e0f85cd33b2573753a3078f81a30e.patch"
         "50-$_plugname-server.conf")
 
 sha256sums=('a678653dfb2641bc9dea9a1bd3b2400f3edbe697953364cf597f76d93cfaea2c'
+            '55d5795b21f20843a65bcfe2790d14c7c100edea98ccc6f0a183b2b0306adc57'
             'cec0056ca0f140f773f443396ea5f95632f077c4a653a4c5b753ec4937ca3e72')
 
 build() {
   cd "${srcdir}/vdr-plugin-$_plugname-$pkgver"
   make -j1
+}
+
+prepare() {
+  cd "${srcdir}/vdr-plugin-$_plugname-$pkgver"
+  patch -p1 -i "$srcdir/avoid_parental_rating_dialogs.patch"
 }
 
 package_vdr-streamdev-client() {
