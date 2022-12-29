@@ -1,0 +1,35 @@
+# This PKGBUILD is part of the VDR4Arch project [https://github.com/vdr4arch]
+
+# Maintainer: Christian Schuld <christian[at]sonnengesicht.de>
+
+pkgname=vdr-dynamite
+pkgver=0.3.0
+_vdrapi=2.6.3
+_gitver=69707bc3111107508dae41e3592bf9f92278be31
+pkgrel=2
+pkgdesc="Dynamic DVB device for VDR"
+url="http://projects.vdr-developer.org/projects/plg-dynamite"
+arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h')
+license=('GPL2')
+depends=('glibc' 'systemd' "vdr-api=${_vdrapi}")
+_plugname=${pkgname//vdr-/}
+source=("git+https://github.com/MarkusEh/vdr-plugin-$_plugname.git#commit=$_gitver"
+        "50-$_plugname.conf")
+options=('!emptydirs')
+md5sums=('SKIP'
+         'b3e31904c5369981b6c96dce25cbbc5d')
+
+build() {
+  cd "${srcdir}/vdr-plugin-$_plugname"
+
+  # TODO: next line needed?
+  sed -i 's/#if VDRVERSNUM < 20300/#if VDRVERSNUM < 20200/g' dynamicdevice.[hc]
+  make GITTAG=''
+}
+
+package() {
+  cd "${srcdir}/vdr-plugin-$_plugname"
+  make DESTDIR="$pkgdir" install
+
+  install -Dm644 "$srcdir/50-$_plugname.conf" "$pkgdir/etc/vdr/conf.avail/50-$_plugname.conf"
+}
