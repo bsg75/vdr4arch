@@ -2,11 +2,11 @@
 
 # Maintainer: Christopher Reimer <mail+vdr4arch[at]c-reimer[dot]de>
 pkgname=vdr-skinenigmang
-pkgver=0.1.2_20_g995b108
+pkgver=0.1.5
 epoch=1
-_gitver=995b108c894970306efcba1d8e70ded50e76f1d3
+_gitver=8cb81b890dbb2770660adc5b3f927e01418abd64
 _vdrapi=2.6.3
-pkgrel=7
+pkgrel=1
 pkgdesc="skin based on the Enigma text2skin addon"
 url="http://andreas.vdr-developer.org/enigmang/index.html"
 arch=('x86_64' 'i686' 'arm' 'armv6h' 'armv7h')
@@ -14,7 +14,7 @@ license=('GPL2')
 depends=('freetype2' 'gcc-libs' "vdr-api=${_vdrapi}")
 makedepends=('git')
 _plugname=${pkgname//vdr-/}
-source=("git+https://projects.vdr-developer.org/git/vdr-plugin-skinenigmang.git#commit=$_gitver"
+source=("git+https://github.com/vdr-projects/vdr-plugin-skinenigmang.git#commit=$_gitver"
         'skinenigmang-search_for_logos_in_resourcedir.diff'
 	'http://andreas.vdr-developer.org/enigmang/download/skinenigmang-logos-xpm-hi-20070702.tgz'
 	'https://web.archive.org/web/20161117145324/http://creimer.net/channellogos/enigma-20150210.tar.bz2'
